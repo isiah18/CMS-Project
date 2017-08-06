@@ -1,0 +1,57 @@
+﻿@using ContentManagementSystem.Model
+@model List<ContentManagementSystem.Model.Inquiry>
+
+@{
+    ViewBag.Title = "Current Inquiries";
+    List<Inquiry> read = Model.Where(i => i.InquiryStatusId == 2).ToList();
+    List<Inquiry> unread = Model.Where(i => i.InquiryStatusId == 1).ToList();
+}
+
+<h1><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>Current Inquiries</h1>
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <table class="table" style="background-color: #d9534f;">
+            <thead>
+            <tr><td colspan="2">Unread Messages</td></tr>
+            <tr>
+                <td>Id</td>
+                <td>Sender Name</td>
+                <td>Sender Email</td>
+            </tr>
+            </thead>
+            <tbody>
+                @foreach (var inquiry in unread)
+                {
+                    <tr>
+                        <td>@inquiry.Id</td>
+                        <td>@inquiry.Name</td>
+                        <td>@Html.ActionLink(@inquiry.Email, "SingleInquiry", "Admin", new { id = inquiry.Id }, null)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-xs-12 col-sm-6">
+        <table class="table" style="background-color:green;">
+            <thead>
+            <tr><td colspan="2">Read Messages</td></tr>
+                <tr>
+                    <td>Id</td>
+                    <td>Sender Name</td>
+                    <td>Sender Email</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var inquiry in read)
+                {
+                    <tr>
+                        <td>@inquiry.Id</td>
+                        <td>@inquiry.Name</td>
+                        <td>@Html.ActionLink(@inquiry.Email, "SingleInquiry", "Admin", new { id = inquiry.Id }, null)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

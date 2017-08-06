@@ -1,0 +1,89 @@
+﻿@using ContentManagementSystem.UI.Models
+@model ContentManagementSystem.UI.Models.BlogAndTagsVM
+
+@{
+   @*ViewBag.Title ="Edit Blog Properties";*@
+
+}
+<head>
+    <title>Edit Blog Properties</title>
+</head>
+<div align="center">
+    <h2>Edit Blog Properties</h2>
+
+    <table class="table table-hover">
+        <tr class="danger">
+            <th>
+                <b>Property</b>
+            </th>
+            <th>
+                Current Property
+            </th>
+            <th>
+                Change Property
+            </th>
+            
+           
+        </tr>
+        <tr class="success">
+            <td>
+                <p>
+                    Blog Title
+                </p>
+            </td>
+            <td>
+                <p>@Model.CurrentBlog.Title</p>
+            </td>
+            <td>
+                <form action="SaveBlogTitle" method="post">
+                    @Html.TextBox("title", null, new { @class = "form-control" })
+                    <button type="submit" class="btn btn-primary">Save Title</button>
+                </form>
+            </td>
+            <td></td>
+
+
+        </tr>
+        <tr class="success">
+            <td>
+                <p>Tag Line</p>
+            </td>
+            <td>
+                <p>
+                    @Model.CurrentBlog.TagLine
+                </p>
+            </td>
+            <td>
+                <form action="SaveTagLine" method="post">
+                    @Html.TextBox("tagline", null, new { @class = "form-control" })
+                    <button type="submit" class="btn btn-primary">Save Tag Line</button>
+                </form>
+            </td>
+            <td></td>
+
+        </tr>
+        <tr class="success">
+            <td>
+                <p>
+                    Contact Description
+                </p>
+            </td>
+            <td>
+                <p>
+                    @Model.CurrentBlog.ContactDescription
+                </p>
+            </td>
+            <td>
+                <form action="SaveContactDescription" method="post">
+                    @Html.TextBox("condesc", null, new { @class = "form-control" })
+                    <button type="submit" class="btn btn-primary">Save Contact Description</button>
+                </form>
+            </td>
+            <td></td>
+
+        </tr>
+    </table>
+</div>
+
+
+

@@ -1,0 +1,82 @@
+﻿
+<!-- Start Add Post Modal -->
+<div class="modal fade modal-wide" id="addPostModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel" align="center">Add Blog Post</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form id="addPostForm">
+                        <div class="form-group" align="center">
+                            <label>Title</label>
+                            <input type="text" id="title" name="title" class="form-control"/>
+                        </div>
+                        <hr/>
+                        <div class="form-group">
+                            <label>Content</label>
+                            <textarea id="content"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Tags : </label>
+                            @*<div data-tags-input-name="tag" id="tagBox"></div>;*@
+                            <input type="text" name="tags" id="tags" class="form-control"/>
+                            <button type="button" id="tagButton">Add Tag</button>
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="selectCategory" name="selectCategory">
+                                <option></option>
+                            </select>
+                            <button type="button" id="categoryButton">Add Category</button>
+                        </div>
+                        <div class="form-group">
+                            <label>Expire Date</label>
+                            @*<div id="expireDate"><input type="date" name="expireDate" id="expireDate"></div>*@
+                            <input type="text" id="expireDate" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Publish Date</label>
+                            @*<div id="publishDate"><input type="date" name="publishDate" id="publishDate"></div>*@
+                            <input type="text" id="publishDate" name="publishDate" class="form-control">
+                        </div>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select id="statuses" name="statuses">
+                                    <option></option>
+                                </select>
+                            </div>
+                        }
+                    </form>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        Tags: <span class="tagList" id="showTags"></span>
+                    </div>
+                    <div class="form-group">
+                        Categories : <span class="categoryList" id="showCategories"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                @if (User.IsInRole("Admin"))
+                {
+                    <button type="button" id="savePost" class="btn btn-primary">Add Post</button>
+                    <button type="button" id="saveEditPost" class="btn btn-primary">Edit Post</button>
+                }
+                else
+                {
+                    <button type="button" id="submitApproval" class="btn btn-primary">Submit for Approval</button>
+                    <button type="button" id="submitEditApproval" class="btn btn-primary">Submit Edit Approval</button>
+                    <button type="button" id="saveDraft" class="btn btn-primary">Save as Draft</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Add Post Modal -->

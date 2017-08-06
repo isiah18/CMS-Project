@@ -1,0 +1,25 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+    {
+        @Html.AntiForgeryToken()
+    }
+    if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Admin Portal", "Index", "Admin", routeValues: null, htmlAttributes: new { title = "Manage" })
+
+    }
+    if (User.IsInRole("Staff") || User.IsInRole("Trainee"))
+    {
+        @Html.ActionLink("Staff Portal", "Index", "Admin", routeValues: null, htmlAttributes: new { title = "Manage" })
+    }
+
+
+    <a href="javascript:document.getElementById('logoutForm').submit()" title="Log off">Log off</a>
+}
+else
+{
+        @*<li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
+        @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+}

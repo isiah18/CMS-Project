@@ -1,0 +1,393 @@
+﻿@using ContentManagementSystem.Model
+@model Blog
+@{
+    ViewBag.Title = "Home";
+    int pages = 0;
+}
+
+<div class="jumbotron">
+    <h1>@Model.Title</h1>
+    <h5>@Model.TagLine</h5>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-8" id="posts">
+        @foreach (var p in Model.InitialFivePost)
+        {
+            <div class="col-xs-12" id="@($"post{p.Id}")">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-7">
+                                <h3>@p.Title</h3>
+                                <p>Sarah - @p.PublishDate.ToString("MMMM d yyyy")</p>
+                            </div>
+                            <div class="col-xs-12 col-sm-5 categoryList">
+                                <p class="subtitle" id="@($"post{p.Id}Cats")">
+                                    @foreach (Category c in p.CategoriesOnPost)
+                                    {
+                                        <span class="filterByCat" data-catId="@c.Id">@($"{c.Name}")</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body wrapper">
+                        @(new HtmlString(p.Content)) <a href="@($"/Home/BlogPost/{p.Id}")" class="readmore">Read More.</a>
+                    </div>
+                    <div class="panel-footer">
+                        <p id="@($"post{p.Id}Tags")">
+                            @foreach (Tag t in p.TagsOnPost)
+                            {
+                                <span class="badge filterByTag" data-tagId="@t.Id">@Html.Raw(t.Name)</span>
+                            }
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="col-xs-12" id="paginationDiv">
+            <nav>
+                <ul class="pagination">
+                    <li>
+                        <a href="#" id="prevArrow" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    @{
+                        if (Model.TotalNumberOfPosts % 5 == 0)
+                        {
+                            pages = (Model.TotalNumberOfPosts / 5);
+                        }
+                        else
+                        {
+                            pages = (Model.TotalNumberOfPosts / 5) + 1;
+                        }
+                    }
+
+                    @for (int i = 1; i <= pages; i++)
+                    {
+                        <li class="goToPage"><a href="#" page="@i" class="goToPage">@i</a></li>
+                    }
+                    <li id="putNumbersHere">
+                        <a href="#" id="nextArrow" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-4" id="sidebar">
+        <div class="col-xs-12">
+            <div class="panel panel-default" id="categories">
+                <div class="panel-heading">Categories</div>
+                <div class="panel-body">
+                    @foreach (Category c in Model.Categories)
+                    {
+                        <div class="col-xs-12 col-md-6 ">
+                            <div class="catDiv filterByCat" data-catId="@c.Id">@c.Name</div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="panel panel-default" id="tags">
+                <div class="panel-heading">Tags</div>
+                <div class="panel-body">
+                    @foreach (KeyValuePair<Tag, int> i in Model.TagCloud)
+                    {
+                        <span class="badge filterByTag" data-tagId="@i.Key.Id">@i.Key.Name</span>
+                    }
+                </div>
+            </div>
+        </div>
+        @*<div class="col-xs-12" id="sponser">
+                <div class="panel panel-default">
+                    <div class="panel-body">Sponser Ad</div>
+                </div>
+            </div>*@
+    </div>
+    <div class="clearfix visible-xs visible-sm visible-md visible-lg"></div>
+
+</div>
+
+
+@section scripts{
+
+    <script src="~/Scripts/moment.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            initPagination();
+            wrapContent();
+
+            $(document).on('click', '.goToPage', function(e) {
+                e.preventDefault();
+                window.paginationCurrPage = parseInt($(this).attr("page"));
+                if (window.paginationCatId !== '') {
+                    pageByCategory(window.paginationStatus, window.paginationCatId, calcPageOffset(), 5);
+                    return false;
+                }
+                if (window.paginationTagId !== '') {
+                    pageByTag(window.paginationStatus, window.paginationTagId, calcPageOffset(), 5);
+                    return false;
+                }
+                pageByApproved(window.paginationStatus, calcPageOffset(window.paginationCurrPage), 5);
+                return false;
+            });
+            $(document).on('click', '#prevArrow', function(e) {
+                e.preventDefault();
+                if (window.paginationCurrPage !== 1) {
+                    window.paginationCurrPage--;
+
+                }
+                if (window.paginationCatId !== '') {
+                    pageByCategory(window.paginationStatus, window.paginationCatId, calcPageOffset(), 5);
+                    return false;
+                }
+                if (window.paginationTagId !== '') {
+                    pageByTag(window.paginationStatus, window.paginationTagId, calcPageOffset(), 5);
+                    return false;
+                }
+                pageByApproved(window.paginationStatus, calcPageOffset(window.paginationCurrPage), 5);
+                return false;
+            });
+            $(document).on('click', '#nextArrow', function(e) {
+                e.preventDefault();
+                if (window.paginationCurrPage !== window.paginationMaxPages) {
+                    window.paginationCurrPage++;
+                }
+                if (window.paginationCatId !== '') {
+                    pageByCategory(window.paginationStatus, window.paginationCatId, calcPageOffset(), 5);
+                    return false;
+                }
+                if (window.paginationTagId !== '') {
+                    pageByTag(window.paginationStatus, window.paginationTagId, calcPageOffset(), 5);
+                    return false;
+                }
+                pageByApproved(window.paginationStatus, calcPageOffset(window.paginationCurrPage), 5);
+                return false;
+            });
+            $(document).on('click', '.filterByCat', function(e) {
+                e.preventDefault();
+                window.paginationCatId = parseInt($(this).attr("data-catId"));
+                window.paginationCurrPage = 1;
+                getTotalCountForCategory(window.paginationCatId);
+                pageByCategory(window.paginationStatus, window.paginationCatId, calcPageOffset(), 5);
+
+            });
+            $(document).on('click', '.filterByTag', function(e) {
+                e.preventDefault();
+                window.paginationTagId = parseInt($(this).attr("data-tagId"));
+                window.paginationCurrPage = 1;
+                getTotalCountForTag();
+                pageByTag(window.paginationStatus, window.paginationTagId, calcPageOffset(), 5);
+            });
+        });
+
+        function initPagination() {
+            window.paginationMaxPages = @pages;
+            window.paginationStatus = 'Approved';
+            window.paginationCurrPage = 1;
+            window.paginationMaxAmount = 5;
+            window.paginationTagId = '';
+            window.paginationCatId = '';
+        }
+
+        function getTotalCountForCategory(catId)
+        {
+            $.getJSON(postsAPI +  window.paginationStatus + "/CTotal/" + catId)
+                .done(function(data) {
+                    if (data%5 === 0)
+                    {
+                        window.paginationMaxPages = Math.floor(data/5);
+                    }
+                    else
+                    {
+                        window.paginationMaxPages = Math.floor((data/5) + 1);
+                    }
+                })
+                .fail(function(jqXhr, status, error) {
+
+                });
+        }
+
+        function getTotalCountForTag(tagId) {
+            $.getJSON(postsAPI + window.paginationStatus + "/TTotal/" + tagId)
+                .done(function(data) {
+                    if (data % 5 === 0) {
+                        window.paginationMaxPages = (data / 5);
+                    } else {
+                        window.paginationMaxPages = (data / 5) + 1;
+                    }
+                })
+                .fail(function(jqXhr, status, error) {
+                });
+        }
+
+        function calcPageOffset() {
+            return ((window.paginationCurrPage - 1) * 5);
+        }
+
+        function wrapContent() {
+            $(".wrapper").dotdotdot({
+                ellipsis: '... ',
+                wrap: 'word',
+                fallbackToLetter: true,
+                /*	jQuery-selector for the element to keep and put after the ellipsis. */
+                after: "a.readmore",
+                /*	Whether to update the ellipsis: true/'window' */
+                watch: "window",
+                height: 150,
+                tolerance: 0,
+                callback: function(isTruncated, orgContent) {},
+                lastCharacter: {
+                    remove: [' ', ',', ';', '.', '!', '?'],
+                    noEllipsis: []
+                }
+            });
+        }
+
+        function pageByCategory(status, categoryId, offset, amount) {
+            $('body').faLoading();
+            $.getJSON(postsAPI + status + "/C/" + categoryId + "/" + offset + "/" + amount)
+                .done(function(data) {
+                    $('body').faLoadingStop();
+                    $("#posts [id^=post]").remove();
+                    $('.goToPage').remove();
+                    $.each(data, function(index, post) {
+                        drawPost(post);
+                    });
+                    for (var i = 1; i <= window.paginationMaxPages; i++) {
+                        $('<li class=\"goToPage\"><a href=\"#\" page=\"' + i + '\" class=\"goToPage\">' + i + '</a></li>').insertBefore('#putNumbersHere');
+                    }
+                    wrapContent();
+                })
+                .fail(function(jqXhr, status, error) {
+
+                });
+        }
+
+        function pageByTag(status, tagId, offset, amount) {
+            $('body').faLoading();
+            $.getJSON(postsAPI + status + "/T/" + tagId + "/" + offset + "/" + amount)
+                .done(function(data) {
+                    $('body').faLoadingStop();
+                    $("#posts [id^=post]").remove();
+                    $('.goToPage').remove();
+                    $.each(data, function(index, post) {
+                        drawPost(post);
+                    });
+                    for (var i = 1; i <= window.paginationMaxPages; i++) {
+                        $('<li class=\"goToPage\"><a href=\"#\" page=\"' + i + '\" class=\"goToPage\">' + i + '</a></li>').insertBefore('#putNumbersHere');
+                    }
+                    wrapContent();
+                })
+                .fail(function(jqXhr, status, error) {
+
+                });
+        }
+
+        function pageByApproved(status, offset, amount) {
+            $('body').faLoading();
+            $.getJSON(postsAPI + status + "/" + offset + "/" + amount)
+                .done(function(data) {
+                    $('body').faLoadingStop();
+                    $("#posts [id^=post]").remove();
+                    $.each(data, function(index, post) {
+                        drawPost(post);
+                    });
+                    wrapContent();
+                })
+                .fail(function(jqXhr, status, error) {
+
+                });
+        }
+
+        //function loadPosts() {
+        //    $('body').faLoading();
+        //    $.getJSON(postsAPI + "Approved")
+        //        .done(function(data) {
+        //            $('body').faLoadingStop();
+        //            $("#posts div").remove();
+        //            $.each(data, function(index, post) {
+        //                drawPost(post);
+        //            });
+        //            wrapContent();
+        //        })
+        //        .fail(function(jqXhr, status, error) {
+        //            $("<div class=\"row\" id=\"alert\">" +
+        //                "<div class=\"col-xs-offset-1 col-xs-10 alert alert-danger\">" +
+        //                "<a href=\"#\" class=\"close\" data-dismiss=\"alert\">&times;</a>" + error +
+        //                "</div>" +
+        //                "</div>").prependTo("#body-content");
+        //        });
+        //}
+
+        function drawPost(post) {
+            $("<div class=\"col-xs-12\" id=\"post" + post.Id + "\">" +
+                "<div class=\"panel panel-default\">" +
+                "<div class=\"panel-heading\">" +
+                "<div class=\"row\">" +
+                "<div class=\"col-xs-12 col-sm-6\">" +
+                "<h3>" + post.Title + "</h3>" +
+                "<p>" + "Sarah - " + moment(post.PublishDate).format("MMMM Do, YYYY") + "</p>" +
+                "</div>" +
+                "<div class=\"col-xs-12 col-sm-6 categoryList\">" +
+                "<p class=\"subtitle\" id=\"post" + post.Id + "Cats\"></p>" +
+                "</div>" +
+                "</div>" +
+                "</div>" +
+                "<div class=\"panel-body wrapper\">" +
+                post.Content + "<a class=\"readmore\" href=\"/Home/BlogPost/" + post.Id + "\">Read More.</a>" +
+                "</div>" +
+                "<div class=\"panel-footer\"><p id=\"post" + post.Id + "Tags\"></p></div>" +
+                "</div>").insertBefore("#paginationDiv");
+            drawCategoriesForPost(post.Id, post.CategoriesOnPost);
+            drawTagsForPost(post.Id, post.TagsOnPost);
+        }
+
+        function drawCategoriesForPost(postId, categories) {
+            $.each(categories, function(index, category) {
+                $("#post" + postId + "Cats").append("<span  class=\"catDiv filterByCat\" data-catId=\"" + category.Id + "\">" + category.Name + "</span>");
+            });
+        }
+
+        function drawTagsForPost(postId, tags) {
+            $.each(tags, function(index, tag) {
+                $("#post" + postId + "Tags").append("<span class=\"badge filterByTag\" data-tagId=\"" + tag.Id + "\">" + tag.Name + "</span>");
+            });
+        }
+
+        function loadSidebar() {
+            $.getJSON(tagAPI)
+                .done(function(data) {
+                    $("#tags").empty();
+                    $.each(data, function(index, tag) {
+                        $("<span class=\"badge\">" + tag.Name + "</span>").appendTo("#tags");
+                    });
+                })
+                .fail(function(jqXhr, status, error) {
+
+                });
+            $.getJSON(categoryAPI)
+                .done(function(data) {
+                    $("#categories").empty();
+                    $.each(data, function(index, category) {
+                        $("<div class=\"col-xs-12 col-md-6 catDiv\"><div class=\"panel panel-default\"><div class=\"panel-body\">" + category.Name + "</div></div></div>").appendTo("#categories");
+                    });
+                })
+                .fail(function(jqXhr, status, error) {
+                    $("<div class=\"row\" id=\"alert\">" +
+                        "<div class=\"col-xs-offset-1 col-xs-10 alert alert-danger\">" +
+                        "<a href=\"#\" class=\"close\" data-dismiss=\"alert\">&times;</a>" + error +
+                        "</div>" +
+                        "</div>").prependTo("#body-content");
+                });
+        }
+
+    </script>
+}

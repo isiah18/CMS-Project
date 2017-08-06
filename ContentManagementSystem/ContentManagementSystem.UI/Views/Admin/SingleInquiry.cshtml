@@ -1,0 +1,63 @@
+﻿@using ContentManagementSystem.Model
+@model ContentManagementSystem.Model.Inquiry
+
+@{
+    ViewBag.Title = "SingleInquiry";
+}
+<div>
+    <h1>Message From @Html.DisplayFor(m => m.Name)</h1>
+    <table class="table" style="background-color:chartreuse">
+        <thead>
+
+        </thead>
+        <tbody>
+
+            <tr>
+                <td>Sender Id: </td>
+                <td>@Model.Id</td>
+            </tr>
+            <tr>
+                <td>Status(1:Unread 2:Read): </td>
+                <td>@Model.InquiryStatusId</td>
+            </tr>
+            <tr>
+                <td>Sender Name: </td>
+                <td>@Model.Name</td>
+            </tr>
+            <tr>
+                <td>Sender Phone Number</td>
+                <td>@Model.Phone</td>
+            </tr>
+            <tr>
+                <td>Sender Email: </td>
+                <td>@Model.Email</td>
+            </tr>
+            <tr>
+                <td>Message: </td>
+                <td>@Model.Message</td>
+            </tr>
+    </table>
+</div>
+
+<div class="center-block">
+    <a href="/Admin/ManageInquiry" class="btn btn-default" style="width: 100px">Back</a>
+</div>
+<br/>
+
+<div class="center-block">
+    @using (Html.BeginForm("Delete", "Admin", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.Id)
+        <button class="btn btn-default" type="submit" style="width: 100px">Delete</button>
+    }
+</div>
+<br/>
+
+<div class="center-block">
+    @using (Html.BeginForm("MarkUnread", "Admin", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.Id)
+        <button class="btn btn-default" type="submit" style="width: 100px">Mark Unread</button>
+    }
+</div>
+

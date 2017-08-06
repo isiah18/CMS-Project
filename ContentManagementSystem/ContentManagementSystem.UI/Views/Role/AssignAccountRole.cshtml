@@ -1,0 +1,84 @@
+﻿@using ContentManagementSystem.UI.Controllers
+@using ContentManagementSystem.UI.Models
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.EntityFramework
+@model ContentManagementSystem.UI.Models.RolesAndUsersViewModel
+@{
+    ViewBag.Title = "Assign User Roles";
+}
+
+<h2>Users with their roles:</h2>
+
+<style type="text/css">
+    #tbrole, .c {
+        border: double;
+    }
+</style>
+
+<div align="center">
+    <table class="table table-hover">
+        <tr class="danger">
+            <th>
+                <b>User</b>
+            </th>
+            <th>
+                <b>Select New Role</b>
+            </th>
+            <th>Current Role</th>
+            <th>
+                <b>
+                    Delete
+                </b>
+            </th>
+        </tr>
+
+        @foreach (ApplicationUser user in Model.AllUsers)
+        {
+            if (User.Identity.GetUserName() == user.UserName)
+            {
+                continue;
+            }
+            else
+            {
+                <tr class="success">
+                    <td>
+                        @user.UserName
+                    </td>
+
+                    <td>
+                        <p>
+                         
+                            @{
+                                var firstOrDefault = Model.AllRoles.FirstOrDefault(r => r.Id == user.Roles.First().RoleId);
+                            }
+
+
+                            @if (firstOrDefault != null)
+                            {
+                                @firstOrDefault.Name
+                            }
+
+                        </p>
+                    </td>
+                    <td>
+                        <form action="SaveUserRole" method="post">
+                            @Html.DropDownListFor(m => m.RoleId, Model.RolesDropDown)
+                            <input type="hidden" value="@user.Id" name="UserId" />
+                            <button type="submit" class="btn btn-primary">Save Role</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="DeleteUser" method="post">
+                            <input type="hidden" value="@user.Id" name="UserId" />
+                            <button type="submit" class="btn btn-danger">Delete User</button>
+                        </form>
+                    </td>
+                </tr>
+             }
+        }
+    </table>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

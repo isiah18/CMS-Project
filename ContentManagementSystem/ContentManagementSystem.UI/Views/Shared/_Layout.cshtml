@@ -1,0 +1,103 @@
+﻿@using ContentManagementSystem.Model
+@{
+    var staticPages = (List<StaticPage>)ViewData["StaticPages"];
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href='https://fonts.googleapis.com/css?family=Bangers' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    @*<div class="loading" style="display: none;">
+        Loading
+        <i class="fa fa-spinner fa-spin" id="indicator"></i>
+    </div>*@
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @*@Html.ActionLink("C T E", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@*@Html.ActionLink("About", "About", "Home")*@</li>
+                    @foreach (StaticPage sp in staticPages)
+                    {
+                        <li>@Html.ActionLink(sp.Title, "Index", "Page", new { id = sp.Id }, null)</li>
+                    }
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @if (!string.IsNullOrEmpty(ViewData["Alert"]?.ToString()))
+        {
+            <div class="row" id="alert">
+                <div class="col-xs-12 alert @ViewData["Alert"]">
+                    <a href="#" class="close" data-dismiss="alert">&times;</a>@ViewData["Message"]
+                </div>
+            </div>
+        }
+        @RenderBody()
+        <div class="clearfix visible-xs visible-sm visible-md visible-lg"></div>
+        <footer>
+            <br/>
+            <div class="footer-left"><span class="leftSpan">&copy; Developed and Supported By JIST @DateTime.Now.Year</span></div>
+            <div class="footer-right">@if ((string)ViewContext.RouteData.Values["controller"] != "Account" && (string)ViewContext.RouteData.Values["action"] != "Login")
+            {
+                <span class="rightSpan">@Html.Partial("_LoginPartial")</span>
+            }</div>
+        </footer>
+
+
+        @*<div class="col-xs-12" id="footer">*@
+            
+           
+        </div>
+    @*</div>*@
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script src="~/Scripts/jquery.faloading-0.1.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="~/Scripts/app/uriVariables.js"></script>
+    <script src="~/Scripts/jquery.dotdotdot.js"></script>
+
+   @*<script type="text/javascript">
+
+    $(document).ajaxSend(function (event, request, settings) {
+        $('#loading').show();
+    });
+
+
+    $(document).ajaxComplete(function (event, request, settings) {
+        $('#loading').hide();
+    });
+</script>*@
+
+    <link rel="stylesheet" href="~/Content/jquery.faloading.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    @*<script>
+    $(document).on('click', 'a', function() {
+        $('body').faLoading();
+    })
+    </script>*@
+</body>
+</html>

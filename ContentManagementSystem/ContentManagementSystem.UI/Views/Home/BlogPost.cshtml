@@ -1,0 +1,44 @@
+﻿@using ContentManagementSystem.Model
+@model Post
+
+@{
+    ViewBag.Title = Model.Title;
+}
+
+<div class="jumbotron">
+    <h1>@Model.Title</h1>
+</div>
+
+<div class="col-xs-12 col-sm-offset-1 col-sm-8" id="posts">
+    <div class="col-xs-12" id="@($"post{Model.Id}")">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <p>Sarah - @Model.PublishDate.ToString("MMMM d yyyy")</p>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 categoryList">
+                        <p class="subtitle" id="@($"post{Model.Id}Cats")">
+                            @foreach (Category c in Model.CategoriesOnPost)
+                            {
+                                <span>@($"{c.Name}")</span>
+                            }
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body wrapper">
+                <p>@(new HtmlString(Model.Content))</p>
+            </div>
+            <div class="panel-footer">
+                <p id="@($"post{Model.Id}Tags")">
+                    @foreach (Tag t in Model.TagsOnPost)
+                    {
+                        <span class="badge">@Html.Raw(t.Name)</span>
+                    }
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,118 @@
+﻿@using ContentManagementSystem.UI.Controllers
+@model System.Collections.Generic.List<ContentManagementSystem.Model.Post>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (User.IsInRole("Admin"))
+{
+    @Html.Partial("_StaticPageModal")
+    @Html.Partial("_CategoryModal")
+    ViewBag.Title = "Admin Portal";
+}
+else
+{
+    ViewBag.Title = "Staff Portal";
+
+}
+@Html.Partial("_AddPostModal")
+
+<div class="row">
+    <div class="col-xs-12" id="errors"></div>
+    <div class="col-xs-12 col-sm-5 col-md-7">
+        @if (User.IsInRole("Admin"))
+        {
+            <h2 id="portalHeader">Admin Portal</h2>
+        }
+        else
+        {
+            <h2 id="portalHeader">Staff Portal</h2>
+        }
+
+    </div>
+    <div class="col-xs-12 col-sm-7 col-md-5" id="addPostModalBtn">
+
+        <button type="button" id="btnAddPost" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            Add Blog Post
+        </button>
+        @if (User.IsInRole("Admin"))
+        {
+            <button type="button" id="btnAddStaticPage" class="btn btn-primary" data-toggle="modal" data-target="#staticPageModal">
+                Add Static Page
+            </button>
+            <button type="button" id="btnAddCategory" class="btn btn-primary" data-toggle="modal" data-target="#categoryModal">
+                Add Category
+            </button>
+        }
+    </div>
+</div>
+
+
+
+<div class="clearfix visible-xs visible-sm visible-md visible-lg"></div>
+
+<div class="row" id="sideBarInfo">
+    <div class="col-xs-12 col-sm-4 col-md-3 col-md-offset-1">
+        <ul class="nav nav-pills nav-stacked">
+            <li id="Drafts" role="presentation"><a href="#">Drafts</a></li>
+            @if (!User.IsInRole("Admin"))
+            {
+                <li id="StaffApproved" role="presentation"><a href="#">Approved</a></li>
+                    <li id="NeedsRevised" role="presentation"><a href="#">Needs Revision</a></li>
+            }
+            @if (User.IsInRole("Admin"))
+            {
+
+                <li id="Pending" role="presentation" class="clicked"><a href="#">Pending</a></li>
+                    <li id="Approved" role="presentation"><a href="#">Approved</a></li>
+                    <li id="StaticPages" role="presentation"><a href="#">Static Pages</a></li>
+                    <li id="Users" role="presentation">@Html.ActionLink("Users", "AssignAccountRole", "Role")</li>
+                    <li id="Inquiries" role="presentation">@Html.ActionLink("Inquiries", "ManageInquiry", "Admin")</li>
+                    <li id="Blog Title and Tags" role="presentation">@Html.ActionLink("Blog Properties", "EditBlog")</li>
+            }
+
+            @*<li id="Drafts" role="presentation"><a href="#">Drafts</a></li>
+                <li id="Approved" role="presentation"><a href="#">Approved</a></li>
+                <li id="Inquiries" role="presentation">@Html.ActionLink("Inquiries","ManageInquiry","Admin")</li>
+                <li id="Users" role="presentation">@Html.ActionLink("Users", "AssignAccountRole", "Role")</li>
+                <li id="Blog Properties" role="presentation">@Html.ActionLink("Blog Properties", "EditBlog", "Admin")</li>
+                <li id="Users" role="presentation"><a href="#">Users</a></li>*@
+
+        </ul>
+    </div>
+    <div class="col-xs-12 col-sm-8 col-md-8">
+        <table id="mainView" class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th colspan="100%">Content</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        var userIsAdmin = '@User.IsInRole("Admin")';
+        var editDraftId;
+    </script>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/app/PostModalValidation.js"></script>
+
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>tinymce.init({ selector: '#content' });</script>
+    <script>tinymce.init({ selector: '#spMCEcontent' });</script>
+    <script src="~/Scripts/moment.js"></script>
+
+    <script src="~/Scripts/app/AddPost.js"></script>
+    <script src="~/Scripts/app/ViewPosts.js"></script>
+    <script src="~/Scripts/app/StaticPage.js"></script>
+    <script src="~/Scripts/app/Category.js"></script>
+
+}
+

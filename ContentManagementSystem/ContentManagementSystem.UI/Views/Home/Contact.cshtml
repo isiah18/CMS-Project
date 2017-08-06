@@ -1,0 +1,44 @@
+﻿@model ContentManagementSystem.Model.Inquiry
+@using reCAPTCHA.MVC
+
+
+
+@{
+    ViewBag.Title = "Contact Sarah";
+}
+
+<section id="loginForm">
+    <h1><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>@ViewBag.Title</h1>
+    <h3>@(new HtmlString((string)ViewData["ContactPageMsg"]))</h3>
+    <form action="@Url.Action("Contact")" method="post">
+
+        <div align="center" style="color:black">
+            <div class="form-group">
+                <label>Name:</label>
+                <input type="text" id="name" class="form-control" name="Name" value="@Model.Name" />
+                <div>@Html.ValidationMessageFor(i => i.Name, null, new { @style = "color: red;!important" })</div>
+            </div>
+            <div class="form-group">
+                <label>Phone Number:</label>
+                <input type="text" id="phone" class="form-control" name="Phone" value="@Model.Phone" />
+                <div>@Html.ValidationMessageFor(i => i.Phone, null, new { @style = "color: red;!important" })</div>
+            </div>
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="text" id="email" class="form-control" name="Email" value="@Model.Email" />
+                <div>@Html.ValidationMessageFor(i => i.Email, null, new { @style = "color: red;!important" })</div>
+            </div>
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea class="form-control" rows="5" id="message" name="Message" value="@Model.Message"></textarea>
+                <div>@Html.ValidationMessageFor(i => i.Message, null, new { @style = "color: red;!important" })</div>
+            </div>
+            <div class="g-recaptcha" data-sitekey="6LewcxoTAAAAAKzc-vI0HQF8XLFU4FjUOt54TVQu"></div>
+
+            <button type="submit" class="btn btn-primary" id="btnSaveContact">Send</button>
+        </div>
+    </form>
+</section>
+@section scripts{
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+}

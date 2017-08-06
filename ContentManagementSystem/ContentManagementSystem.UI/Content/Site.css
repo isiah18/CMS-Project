@@ -1,0 +1,390 @@
+﻿body {
+    /*padding-top: 50px;
+    padding-bottom: 10px;*/
+    background-color: gray;
+    padding: 51px 0 10px 0;
+    background-image: url("/Content/clebwblur.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    -ms-background-size: cover;
+    background-size: cover;
+    background-color: #464646;
+}
+
+#paginationDiv {
+    text-align: center;
+}
+
+#sideBarInfo {
+    padding-bottom: 20px;
+}
+
+#sideBarInfo>div>ul, #sideBarInfo>div>table {
+    background-color: #333333;
+    border-radius: 4px;
+    padding: 4px;
+    border: 0;
+}
+
+#sideBarInfo thead {
+    color: white;
+}
+
+#sideBarInfo table td {
+    background-color: #c0c0c0;
+}
+
+#sideBarInfo table td>div {
+    height: 42px;
+    overflow: hidden;
+}
+
+#sideBarInfo li>a{
+    font-weight: bold;
+    color: #333333;
+}
+
+#sideBarInfo .clicked>a{
+    color: #333333;
+}
+
+#sideBarInfo li {
+    background-color: #c0c0c0;
+    border-radius: 4px;
+}
+
+#sideBarInfo .clicked {
+    background-color: white;
+    border-radius: 4px;
+}
+
+
+
+#sideBarInfo tbody td {
+    padding: 10px;
+}
+
+/*a:link {
+    color: green;
+}
+
+a:visited {
+    
+}
+
+a:hover {
+    
+}
+
+a:active {
+    
+}*/
+
+.body-content #alert {
+    margin-top: 15px;
+    margin-bottom: -5px;
+}
+
+.container {
+    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+}
+
+#loginForm {
+    color: black;
+    background-color: #c0c0c0;
+    border-radius: 4px;
+    padding: 10px 40px;
+    margin-top: 10px;
+}
+.container>div {
+    padding: 0px;
+}
+
+.jumbotron {
+    text-align: left;
+    /*margin-bottom: 0px;*/
+    /*background-image: url("/Content/cle.jpg");
+    background-position: 0% 30%;
+    background-size: cover;
+    background-repeat: no-repeat;*/
+    background-color: transparent;
+    color: black;
+    /*margin-bottom: 20px;*/
+    padding: 0px;
+    margin-bottom: 0px;
+    /*padding: 10px;*/
+}
+
+.jumbotron h1 {
+    font-family: 'Bangers', cursive;
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    text-shadow: gray 0.05em 0.05em 0.05em;
+}
+
+.jumbotron h5 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: medium;
+    /*float: right;*/
+    display: inline-block;
+    padding: 0 0 0 30px;
+    font-weight: bold;
+    color: black;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 100px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/*#savePost {
+    display: inline-block;
+}
+
+#saveEditPost {
+    display: none;
+}*/
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/*#tagCloud {
+    float: right;
+    margin: auto;
+}*/
+
+.leftSpan {
+    float: left;
+}
+
+.rightSpan {
+    float: right;
+}
+
+#posts h3 {
+    margin: 0;
+    color: black;
+    font-weight: bold;
+}
+
+#posts .panel {
+    border: 1px solid black;
+}
+
+#posts .subtitle {
+    margin: 0;
+}
+
+#posts .panel-heading {
+    color: #333333;
+    background-color: #c0c0c0;
+    padding: 10px 10px 0px 15px;
+}
+
+#posts .panel-heading .categoryList {
+    text-align: right;
+    /*font-weight: bold;*/
+}
+
+#posts .panel-heading .categoryList span {
+    color: white;
+    padding: 5px;
+    background-color: #333333;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    cursor: hand;
+}
+
+#posts .panel-body {
+    font-size: 1.25em;
+    font-weight: bold;
+    color: black;
+    background-color: #ffffff;
+    margin: -1px 0 -2px 0;
+}
+
+#posts .panel-footer {
+    border: 0;   
+    background-color: #c0c0c0;
+    padding: 1px 10px 2px 10px;
+}
+
+#posts .panel-footer p {
+    margin: 2px 0;
+}
+
+#posts .rightSpan {
+    font-weight: bold;
+}
+
+#sidebar .panel {
+    border: 0;
+}
+
+#sidebar .panel-heading {
+    color: white;
+    font-weight: bold;
+    background-color: #333333;
+    margin-bottom: -1px;
+}
+
+#sidebar .panel-body {
+    color: black;
+    background-color: #ffffff;
+    -ms-border-bottom-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    -ms-border-bottom-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+#categories>.panel-body>div {
+    padding: 0;
+}
+
+#categories .panel-default {
+    margin-bottom: 2px;
+}
+
+#categories .panel-body {
+    color: black;
+    padding: 5px 5px 5px 15px;
+}
+
+.catDiv {
+    margin: 1px;
+    padding: 5px;
+    border: 1px solid #333333;
+    border-radius: 4px;
+    background-color: #c0c0c0;
+    cursor: pointer;
+    cursor: hand;
+}
+
+#tags span {
+    margin: 0 2px;
+    border: 1px #333333 solid;
+    color: black;
+    background-color: #c0c0c0;
+    cursor: pointer;
+    cursor: hand;
+}
+
+#posts .panel-footer span {
+    margin: 0 2px;
+    border: 1px #333333 solid;
+    color: white;
+    background-color: #333333;
+    cursor: pointer;
+    cursor: hand;
+}
+
+footer {
+    /*border-radius: 4px;*/
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    color:white;
+}
+
+footer {
+    background-color: #333333;
+    background-color: rgba(51, 51, 51, 0.9);
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 55px;
+    width: 100%;
+    overflow:hidden;
+}
+
+
+
+
+
+/*footer {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+}
+@Html.Partial("_LoginPartial") {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+}*/
+
+
+
+.fa-loading-bg, .fa-loading-icon-wrapper {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%
+}
+
+.fa-loading-bg {
+  top: 0;
+  background: rgba(0,0,0,.6);
+  z-index: 99999
+}
+
+.fa-loading-icon-wrapper {
+  z-index: 999999;
+  top: 50%;
+  text-align: center
+}
+
+.fa-loading-icon {
+  margin-top: -2.5em;
+  font-size: 5em;
+  color: #000
+}
+
+#portalHeader {
+    font-family: 'Bangers', cursive;
+    /*display: inline-block;
+    padding-left: 500px;*/
+    /*margin-top: 0;*/
+    font-size: 4em;
+    color: black;
+    text-shadow: gray 0.05em 0.05em 0.05em;
+}
+
+#addPostModalBtn {
+    padding-top: 26px;
+    /*padding-left: 300px;*/
+}
+
+#sideBarInfo {
+    padding-top: 75px;
+}
+
+#btnAddPost, #btnAddStaticPage, #btnAddCategory {
+    /*font-family: 'Bangers', cursive;*/
+    font-size: 1em;
+    color: black;
+    font-weight: bold;
+    /*margin: 2px;*/
+    padding: 5px 5px;
+    border: 1px #333333 solid;
+    border-radius: 4px;
+    background-color: #c0c0c0;
+}

@@ -1,0 +1,13 @@
+﻿@model ContentManagementSystem.Model.StaticPage
+
+
+<div class="jumbotron">
+    <h1>@Model.Title</h1>
+</div>
+
+<div class="col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-body" style="background-color: #c0c0c0; color: black;">@(new HtmlString(Model.Content))</div>
+    </div>
+</div>
+
